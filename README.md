@@ -1,7 +1,5 @@
 # Social Media Heat Map
 
-![Heat Map](../../assets/images/HeatMapScreenShot.png)
-
 The aim of this project is to create a live heat map of social media posts in a
 specified area. The map should place a dot or a pin whenever a post is made that
 has location information attached to it. The current working code is written in
