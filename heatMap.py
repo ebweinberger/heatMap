@@ -52,4 +52,3 @@ if __name__ =="__main__":
 myStreamListener = MyStreamListener()
 myStream = tweepy.Stream(auth, listener=myStreamListener)
 myStream.filter(locations = [-124.975166, 30.566991, -62.775810, 46.168419])
-# myStream.filter(locations = [-130, -60, 140, 70])
