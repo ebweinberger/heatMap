@@ -1,0 +1,4 @@
+#Add intentionally untracked items here
+
+*.env
+node_modules/
