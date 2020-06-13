@@ -1,0 +1,33 @@
+{
+  "name": "heatmap",
+  "version": "1.0.0",
+  "description": "A geographical heatmap of live tweets",
+  "main": "app.js",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ebweinberger/heatMap.git"
+  },
+  "keywords": [
+    "twitter",
+    "heat",
+    "map",
+    "heatmap",
+    "activity",
+    "live",
+    "stream"
+  ],
+  "author": "Eli Weinberger",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ebweinberger/heatMap/issues"
+  },
+  "homepage": "https://github.com/ebweinberger/heatMap#readme"
+}
