@@ -2,11 +2,14 @@ const https = require('https');
 const request = require('request');
 const util = require('util');
 const environment = require('dotenv').config();
+const Plot = require('./plot')
 
 if(environment.error){
   console.log(environment.error);
   process.exitCode = 1;
 }
+
+const Plotter = new Plot();
 
 const get = util.promisify(request.get);
 const post = util.promisify(request.post);
@@ -39,7 +42,7 @@ async function bearerToken (auth) {
 function streamConnect(token) {
   // Listen to the stream
   const config = {
-    url: 'https://api.twitter.com/labs/1/tweets/stream/sample?format=compact',
+    url: 'https://api.twitter.com/labs/1/tweets/stream/sample?format=detailed&expansions=geo.place_id',
     auth: {
       bearer: token,
     },
@@ -54,7 +57,14 @@ function streamConnect(token) {
   stream.on('data', data => {
     try {
       const json = JSON.parse(data);
-      console.log(json);
+      if(json.data.geo){
+        // console.log("place_id: " + json.data.geo.place_id);
+        // console.log("includes: " + json.data.includes);
+        console.log(json.includes)
+
+      }
+      // Plotter.getCoords(json);
+      // console.log(Plotter.getCoords(json));
     } catch (e) {
       // Keep alive signal received. Do nothing.
     }
