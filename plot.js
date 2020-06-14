@@ -6,11 +6,15 @@ var Plotter = module.exports = function Plotter(){
 }
 
 Plotter.prototype.getCoords = function getCoords(tweet){
-  // if(tweet.coordinates){
-  //   this.long = tweet.coordinates.coordinates[0];
-  //   this.lat = tweet.coordinates.coordinates[1];
-  // }
+  if(tweet.includes.places[0].geo.bbox){
+    this.long = tweet.includes.places[0].geo.bbox[0];
+    this.lat = tweet.includes.places[0].geo.bbox[1];
 
-  return tweet.data.coordinates;
+    var result = [this.lat, this.long];
+  }else{
+    return "No location";
+  }
+
+  return result;
 
 }

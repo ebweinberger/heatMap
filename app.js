@@ -2,7 +2,8 @@ const https = require('https');
 const request = require('request');
 const util = require('util');
 const environment = require('dotenv').config();
-const Plot = require('./plot')
+const Plot = require('./plot');
+const io = require('socket.io')();
 
 if(environment.error){
   console.log(environment.error);
@@ -10,6 +11,11 @@ if(environment.error){
 }
 
 const Plotter = new Plot();
+
+const sock = io.on('connection', client => {
+  console.log("Client connected");
+});
+io.listen(3005);
 
 const get = util.promisify(request.get);
 const post = util.promisify(request.post);
@@ -57,14 +63,9 @@ function streamConnect(token) {
   stream.on('data', data => {
     try {
       const json = JSON.parse(data);
-      if(json.data.geo){
-        // console.log("place_id: " + json.data.geo.place_id);
-        // console.log("includes: " + json.data.includes);
-        console.log(json.includes)
-
-      }
-      // Plotter.getCoords(json);
-      // console.log(Plotter.getCoords(json));
+      var coords = Plotter.getCoords(json);
+      // console.log(coords);
+      sock.emit('coords', coords)
     } catch (e) {
       // Keep alive signal received. Do nothing.
     }

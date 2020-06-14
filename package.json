@@ -5,7 +5,10 @@
   "main": "app.js",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "request": "^2.88.2"
+    "engine.io": "^3.4.2",
+    "p5": "^1.0.0",
+    "request": "^2.88.2",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {},
   "scripts": {
