@@ -7,9 +7,13 @@ function setup(){
   socket.on('data',
   function(coords){
     let str = coords[0] + ", " + coords[1];
-    text(str, 10, 10);
     fill(0, 0, 255);
-    circle(coords[0], coords[1], 10);
+    let x = coords[1] + 180;
+    let y = coords[0] + 90;
+    let norm_x = (x * windowWidth) / 360;
+    let norm_y = (y * windowHeight) / 360;
+    circle(norm_x, norm_y, 10);
+    text(str, norm_x - 50, norm_y - 15);
   })
 }
 
