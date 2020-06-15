@@ -63,9 +63,14 @@ function streamConnect(token) {
   stream.on('data', data => {
     try {
       const json = JSON.parse(data);
-      var coords = Plotter.getCoords(json);
-      // console.log(coords);
-      sock.emit('coords', coords)
+      // console.log(json.includes.places[0].geo.bbox[0])
+      // var coords = Plotter.getCoords(json);
+      let long = json.includes.places[0].geo.bbox[0];
+      let lat = json.includes.places[0].geo.bbox[1];
+      let city = json.includes.places[0].full_name;
+      let lstCoords = [long, lat, city]
+      console.log(lstCoords);
+      sock.emit('coords', lstCoords)
     } catch (e) {
       // Keep alive signal received. Do nothing.
     }
