@@ -5,7 +5,9 @@ function setup(){
     background(map);
   })
   createCanvas(windowWidth, windowHeight);
-  socket = io.connect('http://localhost:3030')
+  let socketPath = "http://" + window.location.hostname + ":3030"
+  socket = io.connect(socketPath)
+  console.log("current path: " + socketPath);
 
   socket.on('data',
   function(coords){

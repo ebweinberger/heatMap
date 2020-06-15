@@ -1,17 +1,16 @@
 const client = require('socket.io-client');
 const io = require('socket.io')();
-
-var stream = client('http://localhost:3005');
+const { fork } = require('child_process');
+const streamer = fork('./stream.js')
 
 const socket = io.on('connection', con => {
-  console.log("Client connected" + con);
+  console.log("Broweser client connected");
 });
 io.listen(3030);
 
-
-stream.on('coords', coords => {
-  console.log(coords);
-  socket.emit('data', coords);
+streamer.on('message', message => {
+  console.log(message.data);
+  socket.emit('data', message.data)
 })
 
 const path = require('path');
@@ -61,4 +60,4 @@ let server = http.createServer(handleRequest);
 // Listen on port 8080
 server.listen(3000);
 
-console.log('Server started on port 8080');
+console.log('Server started on port 3000');
