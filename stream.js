@@ -82,22 +82,23 @@ function streamConnect(token) {
 
   return stream;
 }
+async function startStream(){
+  (async () => {
+    let token;
 
-(async () => {
-  let token;
+    try {
+      // Exchange your credentials for a Bearer token
+      token = await bearerToken({consumer_key, consumer_secret});
+    } catch (e) {
+      console.error(`Could not generate a Bearer token. Please check that your credentials are correct and that the Sampled Stream preview is enabled in your Labs dashboard. (${e})`);
+      process.exit(-1);
+    }
 
-  try {
-    // Exchange your credentials for a Bearer token
-    token = await bearerToken({consumer_key, consumer_secret});
-  } catch (e) {
-    console.error(`Could not generate a Bearer token. Please check that your credentials are correct and that the Sampled Stream preview is enabled in your Labs dashboard. (${e})`);
-    process.exit(-1);
-  }
-
-  const stream = streamConnect(token);
-  stream.on('timeout', () => {
-    // Reconnect on error
-    console.warn('A connection error occurred. Reconnecting…');
-    streamConnect(token);
-  });
-})();
+    const stream = streamConnect(token);
+    stream.on('timeout', () => {
+      // Reconnect on error
+      console.warn('A connection error occurred. Reconnecting…');
+      streamConnect(token);
+    });
+  })();
+}
