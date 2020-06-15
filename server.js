@@ -1,7 +1,7 @@
 const client = require('socket.io-client');
 const io = require('socket.io')();
 const { fork } = require('child_process');
-const streamer = fork('./stream.js')
+const streamer = fork('./script/stream.js')
 
 const socket = io.on('connection', con => {
   console.log("Broweser client connected");
