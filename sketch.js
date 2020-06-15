@@ -5,7 +5,7 @@ function setup(){
     background(map);
   })
   createCanvas(windowWidth, windowHeight);
-  let socketPath = "http://" + window.location.hostname + ":3030"
+  let socketPath = "https://" + window.location.hostname + ":3030"
   socket = io.connect(socketPath)
   console.log("current path: " + socketPath);
 
