@@ -2,16 +2,23 @@ const client = require('socket.io-client');
 const io = require('socket.io')();
 const { fork } = require('child_process');
 const streamer = fork('./script/stream.js')
+const environment = require('dotenv').config();
 
-const socket = io.on('connection', con => {
-  console.log("Broweser client connected");
+
+var Pusher = require('pusher');
+var pusher = new Pusher({
+  appId: '1021239',
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: 'us2',
+  useTLS: true
 });
-io.listen(3030);
+
 
 streamer.on('message', message => {
   console.log(message.data);
-  socket.emit('data', message.data)
-})
+  pusher.trigger('heat-map', 'tweet', message.data);
+});
 
 const path = require('path');
 const fs = require('fs');
