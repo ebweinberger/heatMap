@@ -3,11 +3,21 @@ const request = require('request');
 const util = require('util');
 const environment = require('dotenv').config();
 const io = require('socket.io')();
+var Pusher = require('pusher');
+
 
 if(environment.error){
   console.log(environment.error);
   process.exitCode = 1;
 }
+
+var pusher = new Pusher({
+  appId: '1021239',
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: 'us2',
+  useTLS: true
+});
 
 const get = util.promisify(request.get);
 const post = util.promisify(request.post);
@@ -62,7 +72,9 @@ function streamConnect(token) {
       let lat = json.includes.places[0].geo.bbox[1];
       let city = json.includes.places[0].full_name;
       let lstCoords = [long, lat, city]
-      process.send({data: lstCoords});
+      // process.send({data: lstCoords});
+      pusher.trigger('heat-map', 'tweet', lstCoords);
+      console.log(lstCoords)
     } catch (e) {
       // Keep alive signal received. Do nothing.
     }

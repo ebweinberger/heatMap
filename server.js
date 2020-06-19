@@ -1,24 +1,26 @@
 const client = require('socket.io-client');
 const io = require('socket.io')();
-const { fork } = require('child_process');
-const streamer = fork('./script/stream.js')
+const { spawn } = require('child_process');
+// const streamer = fork('./script/stream.js')
 const environment = require('dotenv').config();
 
+const childStream = spawn('node', ['./script/stream.js'])
+childStream.stdout.on('data', (data) => {
+  console.log(`stdout: ${data}`);
+});
 
-var Pusher = require('pusher');
-var pusher = new Pusher({
-  appId: '1021239',
-  key: process.env.PUSHER_KEY,
-  secret: process.env.PUSHER_SECRET,
-  cluster: 'us2',
-  useTLS: true
+childStream.stderr.on('data', (data) => {
+  console.error(`stderr: ${data}`);
+});
+
+childStream.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
 });
 
 
-streamer.on('message', message => {
-  console.log(message.data);
-  pusher.trigger('heat-map', 'tweet', message.data);
-});
+// streamer.on('message', message => {
+//   console.log(message.data);
+// });
 
 const path = require('path');
 const fs = require('fs');
