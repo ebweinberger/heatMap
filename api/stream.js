@@ -89,6 +89,8 @@ function streamConnect(token) {
 
 module.exports = {
   startStream: async function(){
+    console.log("Stream attempt made")
+    
     let token;
 
     try {
@@ -100,7 +102,6 @@ module.exports = {
     }
 
     const stream = streamConnect(token);
-    console.log("Stream attempt made")
     stream.on('timeout', () => {
       // Reconnect on error
       console.warn('A connection error occurred. Reconnecting…');
