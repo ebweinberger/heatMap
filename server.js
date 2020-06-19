@@ -4,7 +4,8 @@ const { spawn } = require('child_process');
 // const streamer = fork('./script/stream.js')
 const environment = require('dotenv').config();
 
-const childStream = spawn('node', ['./script/stream.js'])
+const childStream = spawn('node', ['./script/stream.js']);
+console.log("attemp to spawn");
 childStream.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);
 });
