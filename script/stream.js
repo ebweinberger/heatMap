@@ -2,20 +2,22 @@ const https = require('https');
 const request = require('request');
 const util = require('util');
 const environment = require('dotenv').config();
-const Plot = require('./plot');
 const io = require('socket.io')();
+var Pusher = require('pusher');
+
 
 if(environment.error){
   console.log(environment.error);
   process.exitCode = 1;
 }
 
-const Plotter = new Plot();
-
-const sock = io.on('connection', client => {
-  console.log("Client connected");
+var pusher = new Pusher({
+  appId: '1021239',
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: 'us2',
+  useTLS: true
 });
-io.listen(3005);
 
 const get = util.promisify(request.get);
 const post = util.promisify(request.post);
@@ -59,6 +61,7 @@ function streamConnect(token) {
   };
 
   const stream = request.get(config);
+  console.log
 
   stream.on('data', data => {
     try {
@@ -69,8 +72,9 @@ function streamConnect(token) {
       let lat = json.includes.places[0].geo.bbox[1];
       let city = json.includes.places[0].full_name;
       let lstCoords = [long, lat, city]
-      console.log(lstCoords);
-      sock.emit('coords', lstCoords)
+      // process.send({data: lstCoords});
+      pusher.trigger('heat-map', 'tweet', lstCoords);
+      console.log(lstCoords)
     } catch (e) {
       // Keep alive signal received. Do nothing.
     }
@@ -82,23 +86,23 @@ function streamConnect(token) {
 
   return stream;
 }
-async function startStream(){
-  (async () => {
-    let token;
 
-    try {
-      // Exchange your credentials for a Bearer token
-      token = await bearerToken({consumer_key, consumer_secret});
-    } catch (e) {
-      console.error(`Could not generate a Bearer token. Please check that your credentials are correct and that the Sampled Stream preview is enabled in your Labs dashboard. (${e})`);
-      process.exit(-1);
-    }
+(async () => {
+  let token;
 
-    const stream = streamConnect(token);
-    stream.on('timeout', () => {
-      // Reconnect on error
-      console.warn('A connection error occurred. Reconnecting…');
-      streamConnect(token);
-    });
-  })();
-}
+  try {
+    // Exchange your credentials for a Bearer token
+    token = await bearerToken({consumer_key, consumer_secret});
+  } catch (e) {
+    console.error(`Could not generate a Bearer token. Please check that your credentials are correct and that the Sampled Stream preview is enabled in your Labs dashboard. (${e})`);
+    process.exit(-1);
+  }
+
+  const stream = streamConnect(token);
+  console.log("Stream attempt made")
+  stream.on('timeout', () => {
+    // Reconnect on error
+    console.warn('A connection error occurred. Reconnecting…');
+    streamConnect(token);
+  });
+})();

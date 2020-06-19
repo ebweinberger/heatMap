@@ -1,19 +1,6 @@
 const client = require('socket.io-client');
 const io = require('socket.io')();
-
-var stream = client('http://localhost:3005');
-
-const socket = io.on('connection', con => {
-  console.log("Client connected" + con);
-});
-io.listen(3030);
-
-
-stream.on('coords', coords => {
-  console.log(coords);
-  socket.emit('data', coords);
-})
-
+const environment = require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
 
@@ -61,4 +48,4 @@ let server = http.createServer(handleRequest);
 // Listen on port 8080
 server.listen(3000);
 
-console.log('Server started on port 8080');
+console.log('Server started on port 3000');

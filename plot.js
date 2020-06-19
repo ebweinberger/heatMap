@@ -16,5 +16,4 @@ Plotter.prototype.getCoords = function getCoords(tweet){
   }
 
   return result;
-
 }
