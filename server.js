@@ -3,20 +3,23 @@ const io = require('socket.io')();
 const { spawn } = require('child_process');
 // const streamer = fork('./script/stream.js')
 const environment = require('dotenv').config();
+const stream = require('./api/stream.js')
 
-const childStream = spawn('node', ['./script/stream.js']);
-console.log("attemp to spawn");
-childStream.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
-});
+stream.startStream();
 
-childStream.stderr.on('data', (data) => {
-  console.error(`stderr: ${data}`);
-});
-
-childStream.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-});
+// const childStream = spawn('node', ['./script/stream.js']);
+// console.log("attemp to spawn");
+// childStream.stdout.on('data', (data) => {
+//   console.log(`stdout: ${data}`);
+// });
+//
+// childStream.stderr.on('data', (data) => {
+//   console.error(`stderr: ${data}`);
+// });
+//
+// childStream.on('close', (code) => {
+//   console.log(`child process exited with code ${code}`);
+// });
 
 
 // streamer.on('message', message => {
