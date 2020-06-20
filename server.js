@@ -1,5 +1,3 @@
-const client = require('socket.io-client');
-const io = require('socket.io')();
 const environment = require('dotenv').config();
 const path = require('path');
 const fs = require('fs');

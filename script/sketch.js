@@ -1,7 +1,7 @@
 let socket;
 
 function setup(){
-  loadImage('./map.jpg', map => {
+  loadImage('../assets/map.jpg', map => {
     background(map);
   })
   createCanvas(windowWidth, windowHeight);
