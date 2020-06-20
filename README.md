@@ -3,28 +3,10 @@
 The aim of this project is to create a live heat map of social media posts in a
 specified area. The map should place a dot or a pin whenever a post is made that
 has location information attached to it. The current working code is written in
-python and uses Twitter API.
+JavaScript and uses Twitter API, Vercel, and AWS EC2. The original proof of concept
+was written in python but I abandoned that in favor of using a Node server to manage
+everything.
 
-## tweepy
-Tweepy is the python library that allows me to easily access Twitter API. Using
-tweepy I opened up a `StreamListener` that continuously listens to all incoming
-tweets. The tweets come in as JSON that have a `status._json['geo']['coordinates']`
-property. The `coordinates` property is an array of two items: lattitude and longitude.
-I filter out any tweets that don't have a `geo` property and use the lattitude and
-longitude of those that do to plot a point on a map.
-
-## matplotlib
-As of right now I have a very basic display of the plotted points. To do this I
-used matplotlib to create a plot. The plot needs to be set up to have a fitting
-x and y axis. For instance, if I want to plot New York City only, I need to adjust
-the x and y axis to start at the longitude and lattitude that correlate with the
-south-west corner of the city. As of now I have it set up to plot the entire United States
-(including bits of Canada and Mexico). Then I just plug in the longitude and lattitude
-as the x and y coordinates.
-
-You can see in the above picture what the plot looks like after some time running.
-I think it is really cool that you can see an outline of the United States and where
-the hotspots are like New York City, Los Angeles, San Fransisco, and Seattle.
 
 ## Future Plans
 I plan to build out this project much further. I would like to build a nice front
