@@ -13,6 +13,7 @@ let DOTSIZE = 10;
 //Rates of change
 let COLOR_SHIFT = 1;
 let SHRINKRATE = .05;
+let TRANSPERENT_RATE = .01;
 
 
 
@@ -48,13 +49,19 @@ function draw(){
     var current_tweet = tweets[i]
     var long = (current_tweet.long * windowWidth) / 360;
     var lat = ((current_tweet.lat * -1) * windowHeight) / 180;
-    fill(rgba_string(current_tweet.r, current_tweet.g, current_tweet.b));
+    fill(rgba_string(current_tweet.r, current_tweet.g, current_tweet.b, current_tweet.a));
     circle(long, lat, current_tweet.size)
     // text(current_tweet.place, long + 10, lat + 5)
+
     // current_tweet.shrink();
     // current_tweet.isSizeZero();
-    current_tweet.shiftColor();
-    current_tweet.isRed();
+
+    // current_tweet.shiftColor();
+    // current_tweet.isRed();
+
+    current_tweet.clearer();
+    current_tweet.isClear();
+
     if(current_tweet.killFlag){
       tweets.splice(i, 1);
     }
@@ -78,9 +85,10 @@ class tweet{
     // this.r = getRandomInt(RANDOM_MIN, RANDOM_MAX);
     // this.g = getRandomInt(RANDOM_MIN, RANDOM_MAX);
     // this.b = getRandomInt(RANDOM_MIN, RANDOM_MAX);
-    this.r = 0;
-    this.g = 0;
-    this.b = 255;
+    this.r = 255;
+    this.g = 223;
+    this.b = 0;
+    this.a = TRANSPERENCY;
     this.size = size;
     this.killFlag = false;
   }
@@ -91,7 +99,11 @@ class tweet{
 
   shiftColor(){
     this.r = this.r + COLOR_SHIFT;
-    this.b = this.b - COLOR_SHIFT
+    this.b = this.b - COLOR_SHIFT;
+  }
+
+  clearer(){
+    this.a = this.a - TRANSPERENT_RATE;
   }
 
   isSizeZero(){
@@ -105,10 +117,15 @@ class tweet{
       this.killFlag = true;
     }
   }
+  isClear(){
+    if(this.a < .05){
+      this.killFlag = true;
+    }
+  }
 }
 
-function rgba_string(r, g, b){
-  let str = "rgba(" + r + ", " + g + ", " + b + ", " + TRANSPERENCY + ")";
+function rgba_string(r, g, b, a){
+  let str = "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
   return str;
 }
 
