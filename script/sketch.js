@@ -2,7 +2,7 @@ let map;
 let tweets = [];
 let FRAMERATE = 10;
 let DOTSIZE = 10;
-let SHRINKRATE = .01;
+let SHRINKRATE = .1;
 let MAP_PATH = '../assets/map.png';
 
 
