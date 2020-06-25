@@ -5,7 +5,7 @@ let places = new Array(30);
 places.fill("Place")
 let text_color;
 let FRAMERATE = 30;
-let MAP_PATH = '../assets/map.png';
+let MAP_PATH = '../assets/small_map.png';
 
 //Dot color and size settings
 let TRANSPERENCY = .75;
