@@ -1,6 +1,9 @@
 //General setup
 let map;
 let tweets = [];
+let places = new Array(30);
+places.fill("Place")
+let text_color;
 let FRAMERATE = 30;
 let MAP_PATH = '../assets/map.png';
 
@@ -27,6 +30,11 @@ function setup(){
   })
   createCanvas(windowWidth, windowHeight);
   frameRate(FRAMERATE);
+  text_color = color(255, 223, 0);
+  noStroke();
+  textSize(24);
+  textStyle(BOLD);
+
 
   // Pusher.logToConsole = true;
   var pusher = new Pusher('e1afc04e9e6d62e414c4', {
@@ -38,20 +46,24 @@ function setup(){
   channel.bind('tweet', function(data){
     let new_tweet = new tweet(data[0], data[1], data[2], Date.now(), DOTSIZE)
     tweets.push(new_tweet);
+    places.unshift(new_tweet.place);
   })
+
+
+
 }
 
 function draw(){
   background(map);
   translate(windowWidth / 2, windowHeight / 2);
-  noStroke();
+  // text(newest_place, -windowWidth/2 + 10, windowHeight/2 - 10);
   for (let i = 0; i < tweets.length; i = i + 1){
     var current_tweet = tweets[i]
     var long = (current_tweet.long * windowWidth) / 360;
     var lat = ((current_tweet.lat * -1) * windowHeight) / 180;
     fill(rgba_string(current_tweet.r, current_tweet.g, current_tweet.b, current_tweet.a));
     circle(long, lat, current_tweet.size)
-    // text(current_tweet.place, long + 10, lat + 5)
+
 
     // current_tweet.shrink();
     // current_tweet.isSizeZero();
@@ -65,6 +77,21 @@ function draw(){
     if(current_tweet.killFlag){
       tweets.splice(i, 1);
     }
+  }
+
+
+  if(places.length > 30){
+    places.slice(30);
+  }
+
+  let spacer = 10;
+  let text_transparency = 200
+  for (let i = 0; i < places.length; i++){
+    text_color.setAlpha(text_transparency);
+    fill(text_color);
+    text(places[i], -windowWidth/2 + 10, windowHeight/2 - spacer)
+    spacer = spacer + 30;
+    text_transparency = text_transparency - 15;
   }
 
 }
