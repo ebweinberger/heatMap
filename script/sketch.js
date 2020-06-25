@@ -85,9 +85,9 @@ class tweet{
     // this.r = getRandomInt(RANDOM_MIN, RANDOM_MAX);
     // this.g = getRandomInt(RANDOM_MIN, RANDOM_MAX);
     // this.b = getRandomInt(RANDOM_MIN, RANDOM_MAX);
-    this.r = 0;
-    this.g = 0;
-    this.b = 255;
+    this.r = 255;
+    this.g = 223;
+    this.b = 0;
     this.a = TRANSPERENCY;
     this.size = size;
     this.killFlag = false;
