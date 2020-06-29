@@ -28,6 +28,7 @@ function setup(){
   loadImage(MAP_PATH, map => {
     background(map);
   })
+  httpPost("http://52.14.2.23:3000/start-stream");
   createCanvas(windowWidth, windowHeight);
   frameRate(FRAMERATE);
   text_color = color(255, 223, 0);
@@ -49,7 +50,9 @@ function setup(){
     places.unshift(new_tweet.place);
   })
 
-
+  window.onbeforeunload = function(){
+    httpPost("http://52.14.2.23:3000/stop-stream");
+  }
 
 }
 
