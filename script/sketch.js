@@ -2,7 +2,7 @@
 let map;
 let tweets = [];
 let places = new Array(30);
-places.fill("Place")
+places.fill("Loading...")
 let text_color;
 let FRAMERATE = 30;
 let MAP_PATH = '../assets/small_map.png';
@@ -28,7 +28,9 @@ function setup(){
   loadImage(MAP_PATH, map => {
     background(map);
   })
-  httpPost("http://52.14.2.23:3000/start-stream");
+
+  httpDo("http://52.14.2.23:3000/start-stream", 'POST');
+
   createCanvas(windowWidth, windowHeight);
   frameRate(FRAMERATE);
   text_color = color(255, 223, 0);
@@ -50,10 +52,9 @@ function setup(){
     places.unshift(new_tweet.place);
   })
 
-  window.onbeforeunload = function(){
-    httpPost("http://52.14.2.23:3000/stop-stream");
-  }
-
+  let ping = setInterval(function(){
+    httpDo("http://52.14.2.23:3000/ping", 'POST');
+  }, 60 * 1000);
 }
 
 function draw(){
