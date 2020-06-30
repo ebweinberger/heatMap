@@ -29,7 +29,7 @@ function setup(){
     background(map);
   })
 
-  httpDo("https://52.14.2.23:3000/start-stream", 'POST');
+  httpDo("http://52.14.2.23:3000/start-stream", 'POST');
 
   createCanvas(windowWidth, windowHeight);
   frameRate(FRAMERATE);
@@ -53,7 +53,7 @@ function setup(){
   })
 
   let ping = setInterval(function(){
-    httpDo("https://52.14.2.23:3000/ping", 'POST');
+    httpDo("http://52.14.2.23:3000/ping", 'POST');
   }, 60 * 1000);
 }
 
