@@ -7,7 +7,7 @@ module.exports = (req, res) => {
   if (query.message == "start"){
     axios.post('http://52.14.2.23:3000/start-stream')
     .then((aws_res) => {
-      res.status(200).send(aws_res);
+      res.status(200).send("Started");
       console.log(aws_res);
     })
     .catch((aws_err) => {
@@ -26,7 +26,7 @@ module.exports = (req, res) => {
   }else if(query.message == "ping"){
     axios.post('http://52.14.2.23:3000/ping')
     .then((aws_res) => {
-      res.status(200).send(aws_res);
+      res.status(200).send("Pinged");
       console.log(aws_res);
     }).catch((aws_err) => {
       res.status(501).send(aws_err);
