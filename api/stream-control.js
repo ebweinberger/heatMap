@@ -7,7 +7,7 @@ module.exports = (req, res) => {
   if (query.message == "start"){
     axios.post('http://52.14.2.23:3000/start-stream')
     .then((aws_res) => {
-      res.status(200).send("Started");
+      res.status(200).json(aws_res);
       console.log(aws_res);
     })
     .catch((aws_err) => {
