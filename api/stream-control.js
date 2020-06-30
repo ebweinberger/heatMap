@@ -18,7 +18,7 @@ module.exports = (req, res) => {
     axios.post('http://52.14.2.23:3000/stop-stream')
     .then((aws_res) => {
       res.status(200).send(JSON.parse(aws_res).message);
-      console.log(JSON.parse(aws_res));
+      console.log(aws_res.toString());
     }).catch((aws_err) => {
       res.status(501).send(aws_err);
       console.log(aws_err);
