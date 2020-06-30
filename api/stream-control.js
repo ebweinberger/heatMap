@@ -26,7 +26,7 @@ module.exports = (req, res) => {
   }else if(query.message == "ping"){
     axios.post('http://52.14.2.23:3000/ping')
     .then((aws_res) => {
-      res.status(200).send("Pinged");
+      res.status(200).json(aws_res);
       console.log(aws_res);
     }).catch((aws_err) => {
       res.status(501).send(aws_err);
